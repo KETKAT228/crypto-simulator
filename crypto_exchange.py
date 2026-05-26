@@ -1,10 +1,14 @@
 import random
+import json
 import os
 import time
-import json
+import sys
+import keyboard
 
 def show_logo():
-    print("""разработчики:
+    print("""
+Esc для пропуска
+разработчики:
 ██╗░░██╗███████╗████████╗░░░░░░░░░██╗░░██╗░█████╗░████████╗
 ██║░██╔╝██╔════╝╚══██╔══╝░░░░░░░░░██║░██╔╝██╔══██╗╚══██╔══╝
 █████╔╝░█████╗░░░░░██║░░░░░░░░░░░░█████╔╝░███████║░░░██║░░░
@@ -14,21 +18,32 @@ def show_logo():
 """)
 
 def clear_screen_with_logo():
-    os.system("cls" if os.name == "nt" else "clear")  
+    os.system("cls")  
     show_logo()
 
-show_logo() 
-while True:
-    print("\rЗапуск программы...", end="")
-    time.sleep(0.3)
-    print("\rЗапуск программы.. ", end="") 
-    time.sleep(0.5)
-    print("\rЗапуск программы.  ", end="")
-    time.sleep(0.5)
-    print("\rКонец запуска программы")
-    time.sleep(0.5)
-    clear_screen_with_logo() 
-    break
+show_logo()
+
+spinner = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧"]
+
+skip_loading = False
+
+for _ in range(15):
+    for s in spinner:
+        if keyboard.is_pressed('esc'):
+            skip_loading = True
+            break
+        
+        sys.stdout.write(f"\r {s} Загрузка {s} ")
+        sys.stdout.flush()
+        time.sleep(0.05)
+        
+    if skip_loading: 
+        break
+
+print("\n\nГОТОВО!!!")
+time.sleep(0.5)
+os.system("cls")
+
 
 charity = ["дом пристарелых", "детский дом", "детский садик", "городу", "офис KET_KAT"]
 
